@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JAI Library Unit Tests</title>
+  <link rel="stylesheet" href="css/qunit.css">
+  <script src="js/qunit.js"></script>
+  <script src="js/prototype.js"></script>
+  <script src="js/Astar.js"></script>
+ 
+  <script>
+  test("Astar.getDistance between the same point Should be 0", function() {
+    equal(Astar.getDistance(new Point(0, 0), new Point(0, 0)), 0);
+  });
+
+  test("Astar.getDistance between one point and his neighbour Should be 1", function() {
+    equal(Astar.getDistance(new Point(0, 0), new Point(0, 1)), 1);
+    equal(Astar.getDistance(new Point(0, 0), new Point(1, 0)), 1);
+    equal(Astar.getDistance(new Point(-1, 4), new Point(-2, 4)), 1);
+    equal(Astar.getDistance(new Point(-3, -2), new Point(-3, -1)), 1);
+  });
+  </script>
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+</body>
+</html>
