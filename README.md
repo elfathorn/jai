@@ -1,4 +1,4 @@
-jai
+jAI
 ===
 
-An artificial intelligence javascript library
+#### Javascript artificial intelligence library ####
