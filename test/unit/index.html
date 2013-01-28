@@ -9,18 +9,8 @@
   <script type="text/javascript" src="../../src/core/Point.js"></script>
   <script type="text/javascript" src="../../src/core/Astar.js"></script>
   
-  <script>
-  test("JAI.Astar.getDistance between the same point Should be 0", function() {
-    equal(JAI.Astar.getDistance(new JAI.Point(0, 0), new JAI.Point(0, 0)), 0);
-  });
-
-  test("JAI.Astar.getDistance between one point and his neighbour Should be 1", function() {
-    equal(JAI.Astar.getDistance(new JAI.Point(0, 0), new JAI.Point(0, 1)), 1);
-    equal(JAI.Astar.getDistance(new JAI.Point(0, 0), new JAI.Point(1, 0)), 1);
-    equal(JAI.Astar.getDistance(new JAI.Point(-1, 4), new JAI.Point(-2, 4)), 1);
-    equal(JAI.Astar.getDistance(new JAI.Point(-3, -2), new JAI.Point(-3, -1)), 1);
-  });
-  </script>
+  <script type="text/javascript" src="core/PointUnitTests.js"></script></script>
+  <script type="text/javascript" src="core/AstarUnitTests.js"></script></script>
 </head>
 <body>
   <div id="qunit"></div>
