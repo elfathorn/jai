@@ -7,9 +7,8 @@ JAI.Point.prototype = {
 	constructor: JAI.Point,
 
 	equalTo: function(point) {
-		if (!(point instanceof JAI.Point)) {
+		if (!(point instanceof JAI.Point))
 			throw "parameter is not a JAI.Point";
-		};
 
 		return (this.x == point.x && this.y == point.y);
 	}
