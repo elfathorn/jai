@@ -47,15 +47,34 @@ test("JAI.Astar.getDistance SHOULD throw an exception if start and/or end is not
 
 	throws(
 		function() {
-			JAI.Astar.getDistance(new JAI.Point(), new JAI.Astar());
+			JAI.Astar.getDistance(new JAI.Point(), new Object());
 		},
 		/getDistance needs JAI.Point parameters/
 	);
 
 	throws(
 		function() {
-			JAI.Astar.getDistance(new JAI.Astar(), new JAI.Point());
+			JAI.Astar.getDistance(new Object(), new JAI.Point());
 		},
 		/getDistance needs JAI.Point parameters/
 	);
+});
+
+test("new JAI.Astar SHOULD be init with a JAI.Map not empty", function() {
+	throws(
+		function() {
+			new JAI.Astar(null);
+		},
+		/new instance of JAI.Astar needs a JAI.Map/
+	);
+
+	throws(
+		function() {
+			new JAI.Astar(new Object());
+		},
+		/new instance of JAI.Astar needs a JAI.Map/
+	);
+
+	var map = new JAI.Map(-1, 1, -1, 1);
+	equal(new JAI.Astar(map).map, map);
 });

@@ -20,14 +20,14 @@ test("JAI.Point.equalTo SHOULD throw an exception if parameter is not a JAI.Poin
 			point.equalTo(null);
 		},
 		/parameter is not a JAI.Point/
-  );
+ 	);
 
 	throws(
 		function() {
-			point.equalTo(new JAI.Astar());
+			point.equalTo(new Object());
 		},
 		/parameter is not a JAI.Point/
-  );
+  	);
 });
 
 test("JAI.Point.equalTo SHOULD be true for the same point", function() {

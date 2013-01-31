@@ -1,5 +1,8 @@
-JAI.Astar = function() {
+JAI.Astar = function(map) {
+	if (!(map instanceof JAI.Map)) 
+		throw "new instance of JAI.Astar needs a JAI.Map";
 
+	this.map = map;
 };
 
 JAI.Astar.prototype = {

@@ -42,8 +42,9 @@ if (array_key_exists('minify', $_POST)) {
     <form id="monForm" action="http://closure-compiler.appspot.com/compile" method="post">
     <textarea name="js_code" style="visibility:hidden;display:none;">
 <?php
-$js = file_get_contents('../src/Jai.js');;
+$js = file_get_contents('../src/Jai.js');
 $js .= file_get_contents('../src/core/Point.js');
+$js .= file_get_contents('../src/core/Map.js');
 $js .= file_get_contents('../src/core/Astar.js');
 echo $js;
 ?>
