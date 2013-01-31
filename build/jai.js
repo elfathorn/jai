@@ -27,6 +27,14 @@ JAI.Node.prototype = {
 	constructor: JAI.Node
 };
 
+JAI.List = function() {
+	this.length = 0;
+};
+
+JAI.List.prototype = {
+	constructor: JAI.List
+};
+
 JAI.Map = function(min_x, max_x, min_y, max_y) {
 	this.min_x = min_x;
 	this.max_x = max_x;
@@ -52,6 +60,8 @@ JAI.Astar = function(map) {
 		throw "new instance of JAI.Astar needs a JAI.Map";
 
 	this.map = map;
+	this.open_list = new JAI.List();
+	this.close_list = new JAI.List();
 };
 
 JAI.Astar.prototype = {

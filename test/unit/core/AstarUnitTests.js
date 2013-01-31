@@ -76,5 +76,8 @@ test("new JAI.Astar SHOULD be init with a JAI.Map not empty", function() {
 	);
 
 	var map = new JAI.Map(-1, 1, -1, 1);
-	equal(new JAI.Astar(map).map, map);
+	var astar = new JAI.Astar(map);
+	equal(astar.map, map);
+	ok(astar.open_list instanceof JAI.List);
+	ok(astar.close_list instanceof JAI.List);
 });

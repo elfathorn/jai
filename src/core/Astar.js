@@ -3,6 +3,8 @@ JAI.Astar = function(map) {
 		throw "new instance of JAI.Astar needs a JAI.Map";
 
 	this.map = map;
+	this.open_list = new JAI.List();
+	this.close_list = new JAI.List();
 };
 
 JAI.Astar.prototype = {

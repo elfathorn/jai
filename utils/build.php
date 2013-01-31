@@ -45,6 +45,7 @@ if (array_key_exists('minify', $_POST)) {
 $js = file_get_contents('../src/Jai.js');
 $js .= file_get_contents('../src/core/Point.js');
 $js .= file_get_contents('../src/core/Node.js');
+$js .= file_get_contents('../src/core/List.js');
 $js .= file_get_contents('../src/core/Map.js');
 $js .= file_get_contents('../src/core/Astar.js');
 echo $js;
