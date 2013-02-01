@@ -1,6 +1,5 @@
 test("new JAI.List SHOULD have a zero length", function() {
 	var list = new JAI.List();
-	equal(list.length, 0);
 	ok(list.content instanceof Array);
 	equal(list.content.length, 0);
 });
@@ -75,7 +74,6 @@ test("JAI.List.add SHOULD update the node if a better node is added at the same 
 test("JAI.List.find SHOULD return false if no node is present at the examinated coordinates", function() {
 	var list = new JAI.List();
 	var node = new JAI.Node(10, 25, 'x-1:y2');
-	var better_node = new JAI.Node(10, 5, 'x2:y1');
 	list.add(node);
 	list.add(node, 1, 3);
 	list.add(node, -4, 6);
@@ -88,7 +86,6 @@ test("JAI.List.find SHOULD return false if no node is present at the examinated 
 test("JAI.List.find SHOULD return the index in content array where examinated coordinates corresponding", function() {
 	var list = new JAI.List();
 	var node = new JAI.Node(10, 25, 'x-1:y2');
-	var better_node = new JAI.Node(10, 5, 'x2:y1');
 	list.add(node);
 	list.add(node, 1, 3);
 	list.add(node, -4, 6);
@@ -97,4 +94,29 @@ test("JAI.List.find SHOULD return the index in content array where examinated co
 	equal(list.find(1, 3), 1);
 	equal(list.find(-4, 6), 2);
 	equal(list.find(-1, -2), 3);
+});
+
+test("JAI.List.getBetter SHOULD return false if no node in the list", function() {
+	var list = new JAI.List();
+	equal(list.getBetter(), false);
+});
+
+test("JAI.List.getBetter SHOULD return the first node if only one node in the list", function() {
+	var list = new JAI.List();
+	var node = new JAI.Node(10, 25, 'x-1:y2');
+	list.add(node);
+	var element = list.getBetter();
+	equal(element[2], node);
+});
+
+test("JAI.List.getBetter SHOULD return the better node", function() {
+	var list = new JAI.List();
+	var node = new JAI.Node(10, 25, 'x-1:y2');
+	var better_node = new JAI.Node(10, 5, 'x2:y1');
+	list.add(node, 1, 3);
+	list.add(better_node);
+	list.add(node, -4, 6);
+	list.add(node, -1, -2);
+	var element = list.getBetter();
+	equal(element[2], better_node);
 });

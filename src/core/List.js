@@ -1,5 +1,4 @@
 JAI.List = function() {
-	this.length = 0;
 	this.content = new Array();
 };
 
@@ -35,7 +34,19 @@ JAI.List.prototype = {
 		});
 
 		return present;
+	},
+
+	getBetter: function() {
+		var better = false;
+		if (this.content.length > 0) {
+			better = 0;
+			this.content.forEach(function(element, index, array) {
+				if (element[2].cost_f < array[better][2].cost_f) {
+					better = index;
+				};
+			});
+		};
+		return (better === false ? false : this.content[better]);
 	}
-	
 };
 
