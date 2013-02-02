@@ -15,6 +15,10 @@ JAI.Map = function(min_x, max_x, min_y, max_y) {
 };
 
 JAI.Map.prototype = {
-	constructor: JAI.Map
+	constructor: JAI.Map,
+	
+	find: function(x, y) {
+		return (this.points['x' + x + ':y' + y] == undefined ? false : this.points['x' + x + ':y' + y]);
+	}
 };
 

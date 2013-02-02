@@ -81,3 +81,37 @@ test("new JAI.Astar SHOULD be init with a JAI.Map not empty", function() {
 	ok(astar.open_list instanceof JAI.List);
 	ok(astar.close_list instanceof JAI.List);
 });
+
+test("JAI.Astar.init SHOULD throw an exception if start and/or end are not points in the Map", function() {
+	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	throws(
+		function() {
+			astar.init(-2, 1, 0, 0);
+		},
+		/start should be in the map/
+	);
+	
+	throws(
+		function() {
+			astar.init(-2, 1, 3, -4);
+		},
+		/start and end should be in the map/
+	);
+	
+	throws(
+		function() {
+			astar.init(-1, 1, 3, -4);
+		},
+		/end should be in the map/
+	);
+});
+
+test("JAI.Astar.treatNeighboringNodes SHOULD return 0 if no nodes is added", function() {
+	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	equal(astar.treatNeighboringNodes(3, 3), 0);
+});
+
+// test("JAI.Astar.treatNeighboringNodes SHOULD put all neighboring nodes in the open list if node not present in close list", function() {
+// 	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+// 	equal(astar.treatNeighboringNodes(0, 0), 8);
+// });

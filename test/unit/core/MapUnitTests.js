@@ -18,3 +18,13 @@ test("new JAI.Map SHOULD create the necessary list of JAI.Point", function() {
 		};
 	};
 });
+
+test("JAI.Map.find SHOULD return false if coordinates not in the Map", function() {
+	var map = new JAI.Map(-2, 3, -4, 6);
+	equal(map.find(-3, 12), false);
+});
+
+test("JAI.Map.find SHOULD return the Point if coordinates ok", function() {
+	var map = new JAI.Map(-2, 3, -4, 6);
+	ok(map.find(-1, 3).equalTo(new JAI.Point(-1, 3)));
+});

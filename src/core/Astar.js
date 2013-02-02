@@ -8,7 +8,23 @@ JAI.Astar = function(map) {
 };
 
 JAI.Astar.prototype = {
-	constructor: JAI.Astar
+	constructor: JAI.Astar,
+	
+	init: function(start_x, start_y, end_x, end_y) {
+		var error = '';
+		if (this.map.find(start_x, start_y) == false)
+			error += 'start';
+			
+		if (this.map.find(end_x, end_y) == false)
+			error += (error == '' ? 'end' : ' and end');
+		
+		if (error != '')
+			throw error + " should be in the map";
+	},
+	
+	treatNeighboringNodes: function(x, y) {
+		return 0;
+	}
 };
 
 JAI.Astar.getDistance = function(start, end, kind) {

@@ -17,7 +17,7 @@ JAI.List.prototype = {
 
 		if (find !== false) {
 			add = false;
-			if (node.cost_f < this.content[find][2].cost_f )
+			if (node.cost_f < this.content[find][2].cost_f)
 				this.content[find][2] = node;
 		};
 
