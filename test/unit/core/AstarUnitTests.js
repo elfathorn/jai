@@ -82,6 +82,13 @@ test("new JAI.Astar SHOULD be init with a JAI.Map not empty", function() {
 	ok(astar.close_list instanceof JAI.List);
 });
 
+test("new JAI.Astar SHOULD be init with 0 starting and ending points", function() {
+	var map = new JAI.Map(-1, 1, -1, 1);
+	var astar = new JAI.Astar(map);
+	equal(astar.start, 0);
+	equal(astar.end, 0);
+});
+
 test("JAI.Astar.init SHOULD throw an exception if start and/or end are not points in the Map", function() {
 	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
 	throws(
@@ -104,6 +111,25 @@ test("JAI.Astar.init SHOULD throw an exception if start and/or end are not point
 		},
 		/end should be in the map/
 	);
+});
+
+test("JAI.Astar.init SHOULD set start and end points and put the starting node in the close list", function() {
+	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	astar.init(-1, -1, 1, 1);
+	ok(astar.start instanceof JAI.Point);
+	ok(astar.end instanceof JAI.Point);
+	equal(astar.start, astar.map.find(-1, -1));
+	equal(astar.end, astar.map.find(1, 1));
+	var index = astar.close_list.find(-1, -1);
+	equal(index, 0);
+	var element = astar.close_list.content[0];
+	equal(element[0], -1);
+	equal(element[1], -1);
+	var node = element[2];
+	equal(node.cost_g, 0);
+	equal(node.cost_h, 2 * Math.sqrt(2));
+	equal(node.cost_f, 2 * Math.sqrt(2));
+	equal(node.parent_key, false);
 });
 
 test("JAI.Astar.treatNeighboringNodes SHOULD return 0 if no nodes is added", function() {
