@@ -31,7 +31,24 @@ JAI.Astar.prototype = {
 	},
 	
 	treatNeighboringNodes: function(x, y) {
-		return 0;
+		var count = 0;
+		for (var i = (x-1); i <= (x+1); i++) {
+			for (var j = (y-1); j <= (y+1); j++) {
+				var neighboring_point = this.map.find(i, j);
+				if (neighboring_point !== false && !(i == x && j == y) && !(this.close_list.find(i, j) !== false)) {
+					var parent_index = this.close_list.find(x, y);
+					var parent_node = this.close_list.content[parent_index][2];
+					var node = new JAI.Node(
+						parent_node.cost_g + JAI.Astar.getDistance(neighboring_point, this.map.find(this.close_list.content[parent_index][0], this.close_list.content[parent_index][1])), 
+						JAI.Astar.getDistance(neighboring_point, this.end), 
+						'x' + x + ':y' + y
+					);
+					this.open_list.add(node, i, j);
+					count++;
+				};
+			};
+		};
+		return count;
 	}
 };
 

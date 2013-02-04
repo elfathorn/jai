@@ -134,10 +134,58 @@ test("JAI.Astar.init SHOULD set start and end points and put the starting node i
 
 test("JAI.Astar.treatNeighboringNodes SHOULD return 0 if no nodes is added", function() {
 	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	astar.init(-1, -1, 1, 1);
 	equal(astar.treatNeighboringNodes(3, 3), 0);
 });
 
-// test("JAI.Astar.treatNeighboringNodes SHOULD put all neighboring nodes in the open list if node not present in close list", function() {
-// 	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
-// 	equal(astar.treatNeighboringNodes(0, 0), 8);
-// });
+test("JAI.Astar.treatNeighboringNodes SHOULD put all neighboring nodes in the open list if not current node and not in close list", function() {
+	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	astar.init(-1, -1, 1, 1);
+	astar.close_list.add(new JAI.Node(0, 0, 'x-1:y-1'), 0, 0);
+	equal(astar.treatNeighboringNodes(0, 0), 7);
+});
+
+test("JAI.Astar.treatNeighboringNodes SHOULD put only nodes where coordinates are in the map", function() {
+	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	astar.init(-1, -1, 1, 1);
+	equal(astar.treatNeighboringNodes(-1, -1), 3);
+});
+
+test("JAI.Astar.treatNeighboringNodes SHOULD update open list with good nodes", function() {
+	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	astar.init(-1, -1, 1, 1);
+	equal(astar.treatNeighboringNodes(-1, -1), 3);
+
+	var index_10 = astar.open_list.find(-1, 0);
+	equal(index_10, 0);
+	var element_10 = astar.open_list.content[0];
+	equal(element_10[0], -1);
+	equal(element_10[1], 0);
+	var node_10 = element_10[2];
+	equal(node_10.cost_g, 1);
+	equal(node_10.cost_h, Math.sqrt(5));
+	equal(node_10.cost_f, 1 + Math.sqrt(5));
+	equal(node_10.parent_key, 'x-1:y-1');
+
+	var index0_1 = astar.open_list.find(0, -1);
+	equal(index0_1, 1);
+	var element0_1 = astar.open_list.content[1];
+	equal(element0_1[0], 0);
+	equal(element0_1[1], -1);
+	var node0_1 = element0_1[2];
+	equal(node0_1.cost_g, 1);
+	equal(node0_1.cost_h, Math.sqrt(5));
+	equal(node0_1.cost_f, 1 + Math.sqrt(5));
+	equal(node0_1.parent_key, 'x-1:y-1');
+
+	var index00 = astar.open_list.find(0, 0);
+	equal(index00, 2);
+	var element00 = astar.open_list.content[2];
+	equal(element00[0], 0);
+	equal(element00[1], 0);
+	var node00 = element00[2];
+	equal(node00.cost_g, Math.sqrt(2));
+	equal(node00.cost_h, Math.sqrt(2));
+	equal(node00.cost_f, 2 * Math.sqrt(2));
+	equal(node00.parent_key, 'x-1:y-1');
+});

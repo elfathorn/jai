@@ -25,6 +25,12 @@ JAI.List.prototype = {
 			this.content.push(new Array(x, y, node));
 	},
 
+	delete: function(x, y) {
+		var index = this.find(x, y);
+		return (index !== false ? this.content.splice(index, 1)[0] : false);
+	},
+	
+
 	find: function(x, y) {
 		var present = false;
 		this.content.forEach(function(element, index, array) {

@@ -120,3 +120,28 @@ test("JAI.List.getBetter SHOULD return the better node", function() {
 	var element = list.getBetter();
 	equal(element[2], better_node);
 });
+
+test("JAI.List.delete SHOULD return false if no element to erase", function() {
+	var list = new JAI.List();
+	var node = new JAI.Node(10, 25, 'x-1:y2');
+	list.add(node, 1, 3);
+
+	equal(list.delete(2, 5), false);
+});
+
+test("JAI.List.delete SHOULD return true if element deleted", function() {
+	var list = new JAI.List();
+	var node = new JAI.Node(10, 25, 'x-1:y2');
+	list.add(node, 1, 3);
+	list.add(node, -4, 6);
+	list.add(node, -1, -2);
+	list.add(node, 5, -6);
+
+	var element = list.delete(-1, -2);
+	equal(element[0], -1);
+	equal(element[1], -2);
+	equal(element[2], node);
+	equal(list.content.length, 3);
+	equal(list.content[2][0], 5);
+	equal(list.content[2][1], -6);
+});

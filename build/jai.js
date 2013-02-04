@@ -46,7 +46,7 @@ JAI.List.prototype = {
 
 		if (find !== false) {
 			add = false;
-			if (node.cost_f < this.content[find][2].cost_f )
+			if (node.cost_f < this.content[find][2].cost_f)
 				this.content[find][2] = node;
 		};
 
@@ -96,7 +96,11 @@ JAI.Map = function(min_x, max_x, min_y, max_y) {
 };
 
 JAI.Map.prototype = {
-	constructor: JAI.Map
+	constructor: JAI.Map,
+	
+	find: function(x, y) {
+		return (this.points['x' + x + ':y' + y] == undefined ? false : this.points['x' + x + ':y' + y]);
+	}
 };
 
 JAI.Astar = function(map) {
@@ -106,10 +110,44 @@ JAI.Astar = function(map) {
 	this.map = map;
 	this.open_list = new JAI.List();
 	this.close_list = new JAI.List();
+	this.start = 0;
+	this.end = 0;
 };
 
 JAI.Astar.prototype = {
-	constructor: JAI.Astar
+	constructor: JAI.Astar,
+	
+	init: function(start_x, start_y, end_x, end_y) {
+		var error = '';
+		if (this.map.find(start_x, start_y) == false)
+			error += 'start';
+			
+		if (this.map.find(end_x, end_y) == false)
+			error += (error == '' ? 'end' : ' and end');
+		
+		if (error != '')
+			throw error + " should be in the map";
+			
+		this.start = this.map.find(start_x, start_y);
+		this.end = this.map.find(end_x, end_y);
+		
+		var starting_node = new JAI.Node(0, JAI.Astar.getDistance(this.start, this.end), false);
+		this.close_list.add(starting_node, this.start.x, this.start.y);
+	},
+	
+	treatNeighboringNodes: function(x, y) {
+		var count = 0;
+		for (var i = (x-1); i <= (x+1); i++) {
+			for (var j = (y-1); j <= (y+1); j++) {
+				if (this.map.find(i, j) && !(i == x && j == y)) {
+					var node = new JAI.Node(0, 0, 'x' + x + ':y' + y);
+					this.open_list.add(node, i, j);
+					count++;
+				};
+			};
+		};
+		return count;
+	}
 };
 
 JAI.Astar.getDistance = function(start, end, kind) {
