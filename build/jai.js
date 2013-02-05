@@ -54,6 +54,12 @@ JAI.List.prototype = {
 			this.content.push(new Array(x, y, node));
 	},
 
+	delete: function(x, y) {
+		var index = this.find(x, y);
+		return (index !== false ? this.content.splice(index, 1)[0] : false);
+	},
+	
+
 	find: function(x, y) {
 		var present = false;
 		this.content.forEach(function(element, index, array) {
@@ -134,13 +140,37 @@ JAI.Astar.prototype = {
 		var starting_node = new JAI.Node(0, JAI.Astar.getDistance(this.start, this.end), false);
 		this.close_list.add(starting_node, this.start.x, this.start.y);
 	},
+
+	run: function() {
+		if (this.start == 0 || this.end == 0)
+			throw "call init before run";
+
+	    var current = this.close_list.content[this.close_list.find(this.start.x, this.start.y)];
+	    this.treatNeighboringNodes(current[0], current[1]);
+
+	    while(!(current[0] == this.end.x && current[1] == this.end.y) && (this.open_list.content.length > 0)) {
+	        current = this.open_list.getBetter();
+	 		this.close_list.add(current[2], current[0], current[1]);
+			this.open_list.delete(current[0], current[1]);
+	        this.treatNeighboringNodes(current[0], current[1]);
+	    }
+
+	    return (current[0] == this.end.x && current[1] == this.end.y);
+	},
 	
 	treatNeighboringNodes: function(x, y) {
 		var count = 0;
 		for (var i = (x-1); i <= (x+1); i++) {
 			for (var j = (y-1); j <= (y+1); j++) {
-				if (this.map.find(i, j) && !(i == x && j == y)) {
-					var node = new JAI.Node(0, 0, 'x' + x + ':y' + y);
+				var neighboring_point = this.map.find(i, j);
+				if (neighboring_point !== false && !(i == x && j == y) && !(this.close_list.find(i, j) !== false)) {
+					var parent_index = this.close_list.find(x, y);
+					var parent_node = this.close_list.content[parent_index][2];
+					var node = new JAI.Node(
+						parent_node.cost_g + JAI.Astar.getDistance(neighboring_point, this.map.find(this.close_list.content[parent_index][0], this.close_list.content[parent_index][1])), 
+						JAI.Astar.getDistance(neighboring_point, this.end), 
+						'x' + x + ':y' + y
+					);
 					this.open_list.add(node, i, j);
 					count++;
 				};

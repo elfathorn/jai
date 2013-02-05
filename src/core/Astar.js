@@ -29,6 +29,23 @@ JAI.Astar.prototype = {
 		var starting_node = new JAI.Node(0, JAI.Astar.getDistance(this.start, this.end), false);
 		this.close_list.add(starting_node, this.start.x, this.start.y);
 	},
+
+	run: function() {
+		if (this.start == 0 || this.end == 0)
+			throw "call init before run";
+
+	    var current = this.close_list.content[this.close_list.find(this.start.x, this.start.y)];
+	    this.treatNeighboringNodes(current[0], current[1]);
+
+	    while(!(current[0] == this.end.x && current[1] == this.end.y) && (this.open_list.content.length > 0)) {
+	        current = this.open_list.getBetter();
+	 		this.close_list.add(current[2], current[0], current[1]);
+			this.open_list.delete(current[0], current[1]);
+	        this.treatNeighboringNodes(current[0], current[1]);
+	    }
+
+	    return (current[0] == this.end.x && current[1] == this.end.y);
+	},
 	
 	treatNeighboringNodes: function(x, y) {
 		var count = 0;

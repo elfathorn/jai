@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>jAI Library</title>
+  <style type="text/css">
+  div {
+    width:100px;
+    height:100px;
+    float: left;
+    border:1px solid black;
+    background:red;
+  }
+  h2 {
+    text-align:center;
+    margin-top: 37px;
+  }
+  </style>
+  <script type="text/javascript" src="../build/jai.js"></script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    var map = new JAI.Map(-2, 2, -2, 2);
+    var astar = new JAI.Astar(map);
+
+    astar.init(-2, -2, 2, 1);
+
+    $('#div_x' + astar.start.x + 'y' + astar.start.y).html('<h2>START</h2>');
+    $('#div_x' + astar.end.x + 'y' + astar.end.y).html('<h2>END<h2>');
+
+    $('#div_x' + astar.start.x + 'y' + astar.start.y).css('background', 'green');
+    $('#div_x' + astar.end.x + 'y' + astar.end.y).css('background', 'green');
+
+    if (astar.run()) {
+      var index = astar.close_list.find(astar.end.x, astar.end.y);
+      var current = astar.close_list.content[index];
+
+      $('#div_x' + current[0] + 'y' + current[1]).css('background', 'green');
+
+      var path = current[0]+','+current[1]+':::';
+      var prec_key = current[2].parent_key;
+      $('#div_' + prec_key.replace(":", "")).css('background', 'green');
+      var infos = prec_key.split(":y");
+      var prec_x = infos[0].split("x")[1];
+      var prec_y = infos[1];
+      path += prec_x+','+prec_y+':::';
+
+      while (!(prec_x == astar.start.x && prec_y == astar.start.y)){
+          var index_prec = astar.close_list.find(prec_x, prec_y);
+          var precedent = astar.close_list.content[index_prec][2];
+
+          prec_key = precedent.parent_key;
+          infos = prec_key.split(":y");
+          prec_x = infos[0].split("x")[1];
+          prec_y = infos[1];
+          path += prec_x+','+prec_y+':::';
+          $('#div_' + prec_key.replace(":", "")).css('background', 'green');
+      }
+    } else {
+      alert('no solution');
+    };
+  });
+    
+  </script>
+</head>
+<body>
+  <div id="div_x-2y-2"></div>
+  <div id="div_x-1y-2"></div>
+  <div id="div_x0y-2"></div>
+  <div id="div_x1y-2"></div>
+  <div id="div_x2y-2"></div>
+
+  <div style="clear:both;float:none;width:0px;border:0;height:0;"></div>
+
+  <div id="div_x-2y-1"></div>
+  <div id="div_x-1y-1"></div>
+  <div id="div_x0y-1"></div>
+  <div id="div_x1y-1"></div>
+  <div id="div_x2y-1"></div>
+
+  <div style="clear:both;float:none;width:0px;border:0;height:0;"></div>
+
+  <div id="div_x-2y0"></div>
+  <div id="div_x-1y0"></div>
+  <div id="div_x0y0"></div>
+  <div id="div_x1y0"></div>
+  <div id="div_x2y0"></div>
+
+  <div style="clear:both;float:none;width:0px;border:0;height:0;"></div>
+
+  <div id="div_x-2y1"></div>
+  <div id="div_x-1y1"></div>
+  <div id="div_x0y1"></div>
+  <div id="div_x1y1"></div>
+  <div id="div_x2y1"></div>
+
+  <div style="clear:both;float:none;width:0px;border:0;height:0;"></div>
+
+  <div id="div_x-2y2"></div>
+  <div id="div_x-1y2"></div>
+  <div id="div_x0y2"></div>
+  <div id="div_x1y2"></div>
+  <div id="div_x2y2"></div>
+</body>
+</html>
