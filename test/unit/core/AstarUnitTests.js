@@ -189,3 +189,20 @@ test("JAI.Astar.treatNeighboringNodes SHOULD update open list with good nodes", 
 	equal(node00.cost_f, 2 * Math.sqrt(2));
 	equal(node00.parent_key, 'x-1:y-1');
 });
+
+test("JAI.Astar.run SHOULD throw an exception if no init", function() {
+	throws(
+		function() {
+			var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+			astar.run();
+		},
+		/call init before run/
+	);
+});
+
+test("JAI.Astar.run SHOULD return true when path is found", function() {
+	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	astar.init(-1, -1, 1, 1);
+	ok(astar.run());
+	ok(astar.close_list.find(1, 1));
+});
