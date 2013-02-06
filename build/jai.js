@@ -1,8 +1,10 @@
 var JAI = JAI || { REVISION: '1' };
 
-JAI.Point = function(x, y) {
+JAI.Point = function(x, y, block) {
 	this.x = x || 0;
 	this.y = y || 0;
+
+	this.block = block == undefined ? false : block;
 };
 
 JAI.Point.prototype = {
@@ -13,7 +15,12 @@ JAI.Point.prototype = {
 			throw "parameter is not a JAI.Point";
 
 		return (this.x == point.x && this.y == point.y);
+	},
+
+	setBlock: function() {
+		this.block = true;
 	}
+	
 };
 
 JAI.Node = function(cost_g, cost_h, parent_key) {
@@ -163,7 +170,7 @@ JAI.Astar.prototype = {
 		for (var i = (x-1); i <= (x+1); i++) {
 			for (var j = (y-1); j <= (y+1); j++) {
 				var neighboring_point = this.map.find(i, j);
-				if (neighboring_point !== false && !(i == x && j == y) && !(this.close_list.find(i, j) !== false)) {
+				if (neighboring_point !== false && neighboring_point.block == false && !(i == x && j == y) && !(this.close_list.find(i, j) !== false)) {
 					var parent_index = this.close_list.find(x, y);
 					var parent_node = this.close_list.content[parent_index][2];
 					var node = new JAI.Node(

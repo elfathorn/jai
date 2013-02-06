@@ -3,6 +3,7 @@ test("new JAI.Point without parameters SHOULD init the Point at (0, 0)", functio
 
 	equal(point.x, 0);
 	equal(point.y, 0);
+	ok(!point.block);
 });
 
 test("new JAI.Point SHOULD initialize a good Point object", function() {
@@ -36,4 +37,16 @@ test("JAI.Point.equalTo SHOULD be true for the same point", function() {
 
 	ok(point.equalTo(point));
 	ok(point.equalTo(same_point));
+});
+
+test("JAI.Point SHOULD be a block", function() {
+	var point = new JAI.Point(-1, 6, true);
+	ok(point.block);
+});
+
+test("JAI.Point.setBlock SHOULD make a block point", function() {
+	var point = new JAI.Point();
+	ok(!point.block);
+	point.setBlock();
+	ok(point.block);
 });

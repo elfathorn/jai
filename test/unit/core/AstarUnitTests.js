@@ -206,3 +206,13 @@ test("JAI.Astar.run SHOULD return true when path is found", function() {
 	ok(astar.run());
 	ok(astar.close_list.find(1, 1));
 });
+
+test("JAI.Astar.treatNeighboringNodes SHOULD not treat block points", function() {
+	var astar = new JAI.Astar(new JAI.Map(-1, 1, -1, 1));
+	astar.init(-1, -1, 1, 1);
+	astar.map.find(0, 0).setBlock();
+	equal(astar.treatNeighboringNodes(-1, -1), 2);
+
+	var index00 = astar.open_list.find(0, 0);
+	equal(index00, false);
+});

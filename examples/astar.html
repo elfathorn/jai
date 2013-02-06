@@ -23,7 +23,21 @@
     var map = new JAI.Map(-2, 2, -2, 2);
     var astar = new JAI.Astar(map);
 
-    astar.init(-2, -2, 2, 1);
+    astar.init(-2, -1, 2, 1);
+
+    astar.map.find(-1, -2).setBlock();
+    astar.map.find(-1, -1).setBlock();
+    astar.map.find(-1, 0).setBlock();
+    astar.map.find(-1, 1).setBlock();
+    //astar.map.find(-1, 2).setBlock();
+
+    for (var x = -2; x <= 2; x++) {
+      for (var y = -2; y <= 2; y++) {
+        if (astar.map.find(x, y).block) {
+          $('#div_x' + x + 'y' + y).css('background', 'black');
+        };
+      }
+    };
 
     $('#div_x' + astar.start.x + 'y' + astar.start.y).html('<h2>START</h2>');
     $('#div_x' + astar.end.x + 'y' + astar.end.y).html('<h2>END<h2>');

@@ -1,6 +1,8 @@
-JAI.Point = function(x, y) {
+JAI.Point = function(x, y, block) {
 	this.x = x || 0;
 	this.y = y || 0;
+
+	this.block = block == undefined ? false : block;
 };
 
 JAI.Point.prototype = {
@@ -11,6 +13,11 @@ JAI.Point.prototype = {
 			throw "parameter is not a JAI.Point";
 
 		return (this.x == point.x && this.y == point.y);
+	},
+
+	setBlock: function() {
+		this.block = true;
 	}
+	
 };
 
