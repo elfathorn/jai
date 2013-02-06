@@ -125,12 +125,17 @@
       var w = 0;
       var h = 0;
 
+      var map = null;
+      var astar = null;
+
       $('#create_map').on('submit', function() {
         w = $("#width").val();
         h = $("#height").val();
 
         if(w <= 0 || h <= 0) 
           return false;
+
+        map = new JAI.Map(0, w-1, 0, h-1);
 
         $("#astar").html('');
         for (var y = 0; y < h; y++) {
@@ -146,6 +151,14 @@
             var append = (class_limit == '' ? '' : 'class="' + class_limit + '" ');
 
             $("#astar").append('<div ' + append + 'id="div_x'+x+'y'+y+'"></div>');
+            
+            $("#div_x"+x+"y"+y).click(function() {
+              var array = $(this).attr('id').split('y');
+              var x = array[0].split('div_x')[1];
+              var y = array[1];
+              map.find(x, y).setBlock();
+              $(this).css('background', 'black');
+            });
           };
           $("#astar").append('<div style="clear:both;float:none;width:0px;border:0;height:0;"></div>');
         };
@@ -175,9 +188,7 @@
           return false;
         };
 
-        var map = new JAI.Map(0, w-1, 0, h-1);
-        var astar = new JAI.Astar(map);
-
+        astar = new JAI.Astar(map);
         astar.init(start_x, start_y, end_x, end_y);
 
         $('#div_x' + astar.start.x + 'y' + astar.start.y).html('<h2>START</h2>');
