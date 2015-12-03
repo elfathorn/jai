@@ -1,0 +1,22 @@
+{
+  "name": "jai",
+  "homepage": "http://elfathorn.github.io/jai/",
+  "authors": [
+    "Vincent Guglielmi <vincent.guglielmi@gmail.com>"
+  ],
+  "description": "An artificial intelligence javascript library",
+  "main": "jai.min.js",
+  "moduleType": [],
+  "keywords": [
+    "ai",
+    "javascript"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
